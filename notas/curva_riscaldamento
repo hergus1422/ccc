@@ -83,3 +83,206 @@ Bloques "MUX" o "Selector" para aplicar valores distintos de K según T_ext
 Un bloque de suma final para la salida
 
 Todo lo propuesto es totalmente implementable en LOGO! sin usar funciones avanzadas.
+------------------------------------------------------------------------------------
+nueva iteracion
+
+Definiciones previas:
+T_ext: Temperatura exterior.
+
+T_int: Temperatura interior, es el feedback que queremos controlar.
+
+T_obj: Temperatura de consigna interior deseada (objetivo).
+
+K: Ganancia del control (puede ajustarse para determinar la sensibilidad del sistema).
+
+error: Diferencia entre la consigna y la temperatura actual interior, es decir, 
+error
+=
+𝑇
+obj
+−
+𝑇
+int
+error=T 
+obj
+​
+ −T 
+int
+​
+ .
+
+flow_temp: Temperatura de agua de impulsión (el valor final que se quiere controlar y mantener).
+
+flow_temp_limited: Temperatura de agua de impulsión después de aplicar la saturación.
+
+GAIN: Pendiente de la curva de calefacción.
+
+OFFSET: Ordenada al origen de la curva de calefacción.
+
+Zona Muerta: Un rango de error alrededor de la consigna donde no se toman acciones (para evitar oscilaciones).
+
+Saturación: La temperatura de impulsión tiene un valor máximo y mínimo que no puede exceder.
+
+Curva de calefacción: Relaciona la temperatura exterior con la temperatura de impulsión para mantener la temperatura interior, generalmente expresada en la forma:
+
+\text{flow_temp} = GAIN \times T_{\text{ext}} + OFFSET
+Lógica general del algoritmo de control:
+El algoritmo de control consta de varios pasos que se ejecutan de forma secuencial, siguiendo la lógica del control de temperatura. Los pasos incluirán:
+
+Cálculo del error: Determinamos la diferencia entre la temperatura objetivo 
+𝑇
+obj
+T 
+obj
+​
+  y la temperatura interior actual 
+𝑇
+int
+T 
+int
+​
+ .
+
+Curva de calefacción ajustada por el error: Usamos la temperatura exterior 
+𝑇
+ext
+T 
+ext
+​
+  para determinar la temperatura de impulsión en función de la curva de calefacción.
+
+Control PI (Proporcional-Integral): Aplicamos la ganancia 
+𝐾
+K sobre el error para ajustar la salida. El control proporcional se basará en el error, mientras que el control integral tiene en cuenta la acumulación de errores para ajustar a largo plazo.
+
+Zona Muerta: Si el error está dentro de un rango de tolerancia (zona muerta), no realizamos ninguna acción.
+
+Saturación: Aplicamos los límites superior e inferior a la temperatura de impulsión resultante, para que no sobrepase los valores máximos y mínimos establecidos.
+
+Fórmulas y Algoritmo Detallado:
+1. Cálculo del error:
+El error se calcula como la diferencia entre la consigna y la temperatura interior:
+
+error
+=
+𝑇
+obj
+−
+𝑇
+int
+error=T 
+obj
+​
+ −T 
+int
+​
+ 
+2. Curva de calefacción:
+La temperatura de impulsión inicial se calcula usando la curva de calefacción basada en la temperatura exterior:
+
+\text{flow_temp\_curva} = \text{GAIN} \times T_{\text{ext}} + \text{OFFSET}
+3. Ajuste con el control PI:
+El control proporcional ajusta la temperatura de impulsión en función del error. La salida proporcional se calcula como:
+
+\text{flow_temp\_corr} = \text{flow_temp\_curva} + K \times \text{error}
+𝐾
+K es la ganancia del lazo, que ajusta la influencia del error en el control.
+
+4. Aplicación de la Zona Muerta:
+La zona muerta se implementa como un rango de valores del error en el que no se realiza corrección. Si el error está dentro de un rango predefinido, el sistema no ajustará la temperatura de impulsión.
+
+Definimos el rango de la zona muerta 
+error_min
+error_min y 
+error_max
+error_max. Si el error está dentro de este rango, se mantiene la temperatura de impulsión sin cambios.
+
+\text{Si } \text{error\_min} \leq \text{error} \leq \text{error\_max}, \quad \text{no se ajusta flow_temp}
+5. Saturación de la temperatura de impulsión:
+Se limitan los valores de la temperatura de impulsión \text{flow_temp\_corr} a los valores máximos y mínimos permitidos. Estos valores dependen de los límites de temperatura de tu sistema.
+
+Definimos 
+𝑇
+min
+T 
+min
+​
+  y 
+𝑇
+max
+T 
+max
+​
+  como los límites mínimo y máximo de la temperatura de impulsión:
+
+\text{flow_temp\_limited} = \min \left( \max \left( \text{flow_temp\_corr}, T_{\text{min}} \right), T_{\text{max}} \right)
+Este paso asegura que la temperatura de impulsión no sea demasiado baja ni demasiado alta, incluso si el control PI ha generado un valor fuera de esos rangos.
+
+Algoritmo Completo en Pseudocódigo:
+text
+Copy
+Edit
+// Paso 1: Cálculo del error
+error = T_obj - T_int
+
+// Paso 2: Curva de calefacción
+flow_temp_curva = GAIN * T_ext + OFFSET
+
+// Paso 3: Control PI (Proporcional)
+flow_temp_corr = flow_temp_curva + K * error
+
+// Paso 4: Aplicación de la Zona Muerta
+if (error >= error_min and error <= error_max) {
+    flow_temp_corr = flow_temp_curva // No se realiza ajuste si está dentro de la zona muerta
+}
+
+// Paso 5: Saturación de la temperatura de impulsión
+flow_temp_limited = min(max(flow_temp_corr, T_min), T_max)
+
+// Paso 6: Salida (flow_temp) es la temperatura de impulsión ajustada
+flow_temp = flow_temp_limited
+Explicación del Pseudocódigo:
+Cálculo del error: Se calcula la diferencia entre la consigna 
+𝑇
+obj
+T 
+obj
+​
+  y la temperatura interior 
+𝑇
+int
+T 
+int
+​
+ .
+
+Curva de calefacción: Se calcula la temperatura de impulsión inicial según la temperatura exterior 
+𝑇
+ext
+T 
+ext
+​
+  y la pendiente 
+GAIN
+GAIN, junto con el desplazamiento 
+OFFSET
+OFFSET.
+
+Control PI: Se ajusta la temperatura de impulsión con la ganancia 
+𝐾
+K, que depende del error. El factor 
+𝐾
+K puede ajustarse para hacer el sistema más o menos sensible a los errores.
+
+Zona muerta: Si el error está dentro de un rango específico (zona muerta), no se hace corrección.
+
+Saturación: Se asegura que la temperatura de impulsión no supere los límites máximos ni mínimos establecidos.
+
+Resultado final: El valor ajustado de la temperatura de impulsión se usa como la salida del sistema para controlar la caldera, bomba de calor u otro generador de calor.
+
+Parámetros adicionales que podrían ser útiles:
+T_min y T_max: Definidos como los valores máximos y mínimos permitidos para la temperatura de impulsión.
+
+error_min y error_max: Definen la zona muerta, que podría ser un pequeño rango alrededor del error cero donde no se realiza ningún ajuste.
+
+Este algoritmo te permitirá controlar de manera eficiente la temperatura interior, optimizando el sistema de calefacción (y refrigeración) según las condiciones exteriores y la consigna deseada.

@@ -70,3 +70,194 @@ Operating level Protection ¦ Reduced
  800 F Reduced setp increase start- - -- - - / line 80110 °C
  801 F Reduced setp increase end-15-30 Line 800 °C
 
+ Control of mixing valve
+ 830 F Mixing valve boost 0 0 50 °C
+ 832 F Actuator type
+ 2-position ¦ 3-position
+ 3-position
+ 833 F Switching differential 2-pos 2 0 20 °C
+ 834 F Actuator running time 120 30 650 s
+ 835 OMixing valve Xp 24 1 100 °C
+ 836 OMixing valve Tn 90 10 650 s
+
+Speed-controlled pump
+ 880 F Pump speed reduction
+ Operating level ¦ Characteristic
+ Characteristic
+ 881 O Starting speed 80 0 100 %
+ 882 F Pump speed min 40 0 Line 883 %
+ 883 F Pump speed max 100 Line 882 100 %
+ 885 O Pump speed min OEM 40 0 Line 883 %
+ 886 O Pump speed max OEM 100 Line 882 100 %
+ 888 O Curve readj at 50% speed 33 0 100 %
+ 890 O Flow setp readj speed ctrl
+ No ¦ Yes
+ No
+ 882 F Pump speed min 40 0 Line 883 %
+ 883 F Pump speed max 100 Line 882 100 %
+
+ Cooling circuit 1
+ Operating mode
+ 901 E Operating mode
+ Protection ¦ Automatic ¦ Reduced ¦ Comfort
+ Automatic
+ Setpoints
+ 902 E Comfort setpoint 24 Line 905 Line 903 °C
+ 903 E Reduced setpoint 26 Line 902 Line 904 °C
+ 904 E Protection setpoint 35 Line 903 40 °C
+ 905 F Comfort setpoint min 5 5 Line 902 °C
+ Release
+ 907 I Release
+ Time program HC ¦ Time program CC
+ Time program HC
+ Cooling curve
+ 908 I Flow temp setp at OT 25°C 20 6 35 °C
+ 909 I Flow temp setp at OT 35°C 16 6 35 °C
+ "Eco" functions
+ 912 I Cooling limit at OT 20- - - / 8 35 °C
+ 913 F Lock time at end heat/cool 24- - - / 8 100 h
+ 914 F 24-hour cooling limit 3- - - / -10 10 °C
+ 915 O Ext'n 24-hour cooling limit
+ No ¦ Yes
+ Yes
+ Summer compensation
+ 918 F Summer comp start at OT 26 20 Line 919 °C
+ 919 F Summer comp end at OT 35 Line 918 50 °C
+ 920 F Summer comp setp increase 4- - - / 1 10 °C
+ Limitationsof flowtemperature setpoint
+ 923 F Flow temp setp min OT 25°C 18 6 35 °C
+ 924 F Flow temp setp min OT 35°C 18 6 35 °C
+ Room influence
+ 928 F Room influence 80- - - / 1 100 %
+ 929 O Prop band Xp room contr 1.5 0.5 32 °C
+ 930 O Int act time Tn room contr 5400 10 24000 s
+ 931 O Der act time Tv room contr 10 10 2400 s
+ Room temperature limitation
+ 932 F Room temp limitation 0.5- - - / 0 4 °C
+ Optimizations
+ 935 F Quick increase
+ Off ¦ To Reduced setpoint ¦ To Protection setpoint
+ To Reduced setpoint
+ Frost protection
+ 937 F Frost prot plant CC pump
+ Off ¦ On
+ Off
+ Controlof mixing valve
+ 938 F Mixing valve decrease 0 0 20 °C
+ 939 F Actuator type
+ 2-position ¦ 3-position
+ 3-position
+ 940 F Switching differential 2-pos 2 0 20 °C
+ 941 F Actuator running time 120 30 650 s
+ 942 OMixing valve Xp 12 1 100 °C
+ 943 OMixing valve Tn 90 10 650 s
+ 945 F Mixing valve in heating mode
+ Control ¦ Open
+ Open
+Dewpoint monitoring
+ 946 F Lock time dewpoint monitor 60- - - / 10 600 min
+ 947 F Flow temp setp incr hygro 10- - - / 1 20 °C
+ 948 F Flow setp incr start at r.h. 60 0 100 %
+ 950 F Flow temp diff dewpoint 2- - - / 0 5 °C
+ Buffer storage tank/primary controller
+ 962 F With buffer
+ No ¦ Yes
+ No
+ 963 F With prim contr/system pump
+ No ¦ Yes
+ No
+
+
+ Domestic hot water
+ 1600 E Operating mode
+ Off ¦ On ¦ Eco
+ On
+ 1601 OOptg mode selection Eco
+ None ¦ DHW storage tank
+ None
+ 1610 E Nominal setpoint 50 Line 1612 Line 1614 °C
+ 1612 F Reduced setpoint 40 8 Line 1610 °C
+ 1614 O Nominal setpoint max 65 Line 1610 80 °C
+ 1620 I Release
+ 24h/day ¦ All time programs HC/CC ¦ Time program 4/DHW ¦
+ Low-tariff ¦ T'prog 4/DHW or low-tariff
+ Time program 4/DHW
+ 1630 I Charging priority
+ Absolute ¦ Shifting ¦ None ¦ MC shifting, PC absolute
+ Absolute
+ 1631 O Temp request selection
+ Max limitation ¦ Max selection
+ Max limitation
+ 1640 F Legionella function
+ Off ¦ Periodically ¦ Fixed weekday
+ Off
+ 1641 F Legionella funct periodically 3 1 7 Days
+ 1642 F Legionella funct weekday
+ Monday ¦ Tuesday ¦ Wednesday ¦ Thursday ¦ Friday ¦ Saturday ¦
+ Sunday
+ Monday
+1644 F Legionella funct time- - -- - - / 00:00 23:50 hh:mm
+ 1645 F Legionella funct setpoint 65 55 95 °C
+ 1646 F Legionella funct duration 30- - - / 2 360 min
+ 1647 F Legionella funct circ pump
+ Off ¦ On
+ On
+ 1648 F Legio funct circ temp diff- - -- - - / 0 20 °C
+ 1660 F Circulating pump release
+ Time program HC/CC 3 ¦ DHW release ¦ Time program 4/DHW¦
+ Time program 5
+ Time program HC/CC 3
+ 1661 F Circulating pump cycling
+ Off ¦ On
+ On
+ 1663 F Circulation setpoint 45 8 80 °C
+ 1680 F Optg mode changeover
+ None ¦ Off ¦ On ¦ Eco
+ Off
+ Consumer circuit 1
+ 1854 F Request opt energy
+ Off ¦ On
+ Off
+ 1859 I Flow temp setp cons request 30 8 120 °C
+ 1860 F Frost prot plant VK pump
+ Off ¦ On
+ On
+ 1874 O DHW charging priority
+ No ¦ Yes
+ Yes
+ 1875 F Excess heat draw
+ Off ¦ On
+ On
+ 1878 F With buffer
+ No ¦ Yes
+ Yes
+ 1880 F With prim contr/system pump
+ No ¦ Yes
+ Yes
+
+
+ General parameters
+
+ Duration error repetition 24 1 40 h
+Delay mains fault 3 1 40 s
+Delay flow switch 0 0 10 s
+Min flow switch source- - -1 12000 l/h
+Min flow switch consumers- - -1 12000 l/h
+Sensor types/readjustments
+ 6096 O Sensor type device
+ NTC 10k/1k ¦ NTC 5k  NTC 10k/1k
+ 6097 F Sensor type collector NTC ¦ Pt 1000 NTC
+ 6098 F Readjustm collector sensor 0-20 20 °C
+ 6099 F Readjustm coll sensor 2 0-20 20 °C
+ 6100 F Readjustm outside sensor 0.0-3.0 3.0 °C
+Static pressure supervision
+ 6140 OWater pressure max 3- - - / 0 10 bar
+ 6141 OWater pressure min 0.8- - - / 0 10 bar
+ 6142 OWater pressure critical min 0.5- - - / 0 10 bar
+6150 OWater pressure 2 max 3- - - / 0 10 bar
+ 6151 OWater pressure 2 min 0.8- - - / 0 10 bar
+ 6152 OWater press 2 critical min 0.5- - - / 0 10 bar
+6180 OWater pressure 3 max 3- - - / 0 10 bar
+ 6181 OWater pressure 3 min 0.8- - - / 0 10 bar
+ 6182 OWater press 3 critical min 0.5- - - / 0 10 bar
+

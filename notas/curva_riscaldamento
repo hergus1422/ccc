@@ -1,0 +1,85 @@
+Lógica combinada: curva lineal + zona muerta + saturación + K variable
+
+Variables utilizadas:
+T_ext: temperatura exterior
+
+T_int: temperatura interior (feedback)
+
+T_obj: consigna interior deseada
+
+K: ganancia del lazo de corrección
+
+error: T_obj - T_int
+
+flow_temp: temperatura de agua de impulsión (salida)
+
+flow_temp_limited: temperatura de impulsión luego de la saturación
+
+GAIN: pendiente de la curva exterior (ej. -0.75)
+
+OFFSET: ordenada al origen (ej. 45)
+
+1. Calcular parte de la curva exterior:
+   curva_base = GAIN * T_ext + OFFSET
+
+2. Calcular el error térmico:
+   error = T_obj - T_int
+
+3. Aplicar zona muerta (±0.5 °C):
+   Si abs(error) < 0.5 entonces
+       error = 0
+
+4. Ajustar K según temperatura exterior:
+   Si T_ext < 0 entonces K = 1.5
+   Si T_ext > 10 entonces K = 0.5
+   Sino K = 1.0
+
+5. Aplicar corrección proporcional:
+   correccion = K * error
+
+6. Calcular temperatura de impulsión:
+   flow_temp = curva_base + correccion
+
+7. Aplicar saturaciones:
+   Si flow_temp > 70 entonces flow_temp_limited = 70
+   Si flow_temp < 30 entonces flow_temp_limited = 30
+   Sino flow_temp_limited = flow_temp
+
+8. Enviar flow_temp_limited al actuador (mezcladora, caldera, etc.)
+
+            +----------------+
+   T_ext ---->| GAIN * T_ext  |----+
+              |  + OFFSET     |    |
+              +----------------+  |
+                                   v
+                            +-------------+
+                            |   SUMA      |---+
+                            +-------------+   |
+                                   ^           v
+          +------------------+     |      +----------------+
+   T_int--|                  |     |      |  Saturación     |----> flow_temp_limited
+         -| error = T_obj -  |     |      |   (30–70 °C)    |
+   T_obj--|     T_int        |     |      +----------------+
+          +------------------+     |
+                     |             |
+     +-----------------------------------------+
+     |  Zona muerta: si |error| < 0.5 => 0      |
+     +-----------------------------------------+
+                     |
+           +----------------------+
+           | Ajuste dinámico de K | (según T_ext)
+           +----------------------+
+                     |
+              corrección = K * error
+
+En LOGO! podés usar:
+
+Bloques matemáticos para la ecuación de la curva
+
+Comparadores para la zona muerta y saturación
+
+Bloques "MUX" o "Selector" para aplicar valores distintos de K según T_ext
+
+Un bloque de suma final para la salida
+
+Todo lo propuesto es totalmente implementable en LOGO! sin usar funciones avanzadas.

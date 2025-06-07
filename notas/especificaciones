@@ -1,0 +1,72 @@
+settings
+controller’s menus and parameters
+
+· Access level (end-user, commissioning engineer, heating engineer)
+· Configurations– Active plant diagrams (e.g. buffer storage tank or solar)– Type of heat pump (brine, water, air)– Presence and type of extension module and/or I/O module
+
+Access level (end-user, commissioning engineer, heating engineer)
+                E        I                      F
+Time program cooling 
+ E  Preselection
+ Mo - Su ¦ Mo - Fr ¦ Sa - Su ¦ Mo ¦ Tu ¦ We ¦ Th ¦ Fr ¦ Sa ¦ Su
+ phase on 06:00 00:00 24:00 hh:mm
+ phase off 06:00 00:00 24:00 hh:mm
+ Default values No ¦ Yes
+
+ Time prog heating circuit 1
+ E Preselection
+ Mo - Su ¦ Mo - Fr ¦ Sa - Su ¦ Mo ¦ Tu ¦ We ¦ Th ¦ Fr ¦ Sa ¦Su
+phase on 06:00 00:00 24:00 hh:mm
+phase off 06:00 00:00 24:00 hh:mm
+Default values No ¦ Yes
+
+Holidays zone
+E Preselection
+Start--.--01.01 31.12 DD.MM
+End--.--01.01 31.12 DD.MM
+Operating level Protection ¦ Reduced
+
+ Heating circuit 
+ Operating mode
+ 700 E Operating modeProtection ¦ Automatic ¦ Reduced ¦ Comfort Automatic
+ Setpoints
+ 710 E Comfort setpoint 20.0 Line 712 Line 716 °C
+ 712 E Reduced setpoint 19 Line 714 Line 710 °C
+ 714 E Protection setpoint 10.0 4 Line 712 °C
+ 716 F Comfort setpoint max 35.0 Line 710 35 °C
+ Heating curve
+ 720 E Heating curve slope 0.8 0.10 4.00
+ 721 F Heating curve displacement 0.0-4.5 4.5 °C
+ 726 F Heating curve adaption Off ¦ On  Off
+ "Eco" functions
+ 730 E Summer/winter heating limit 18- - - / 8 30 °C
+ 732 F 24-hour heating limit-3- - - / -10 10 °C
+ 733 O Ext'n 24-hour heating limit No ¦ Yes Yes
+ Limitations of flow temperature setpoint
+ 740 I Flow temp setpoint min 8 8 Line 741 °C
+ 741 I Flow temp setpoint max 50 Line 740 95 °C
+ 742 E Flow temp setpoint room stat- - -- - - / line 740Line 741 °C
+ 744 O Swi-on ratio room stat- - -- - - / 1 99 %
+ Room influence
+ 750 F Room influence 20- - - / 1 100 %
+ Room temperature limitation
+ 760 F Room temp limitation 1- - - / 0 4 °C
+ Boost heating/quick setback
+ 761 O Heating limit room controller 6 0 100 %
+ 762 O Prop band Xp room contr 3 0.5 32 °C
+ 763 O Int act time Tn room contr 4800 10 24000 s
+ 764 O Der act time Tv room contr 480 10 2400 s
+ 766 O SD room temp limitation 25 0 100 %
+ Boost heating/quick setback
+ 770 F Boost heating- - -- - - / 0 20 °C
+ 780 F Quick setback
+ Off ¦ To Reduced setpoint ¦ To Protection setpoint
+ To Reduced setpoint
+ Optimum start/stop control
+ 790 F Optimum start control max 0:00:00 00:00:00 00:06:00 hh:mm:ss
+ 791 F Optimum stop control max 0:00:00 00:00:00 00:06:00 hh:mm:ss
+ 794 F Heat up gradient 60 0 600 min/K
+ Increase of "Reduced" setpoint
+ 800 F Reduced setp increase start- - -- - - / line 80110 °C
+ 801 F Reduced setp increase end-15-30 Line 800 °C
+

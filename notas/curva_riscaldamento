@@ -96,20 +96,7 @@ T_obj: Temperatura de consigna interior deseada (objetivo).
 K: Ganancia del control (puede ajustarse para determinar la sensibilidad del sistema).
 
 error: Diferencia entre la consigna y la temperatura actual interior, es decir, 
-error
-=
-𝑇
-obj
-−
-𝑇
-int
-error=T 
-obj
-​
- −T 
-int
-​
- .
+error = 𝑇obj − 𝑇int error = Tobj  −Tint .
 
 flow_temp: Temperatura de agua de impulsión (el valor final que se quiere controlar y mantener).
 
